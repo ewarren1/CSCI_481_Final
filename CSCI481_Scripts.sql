@@ -62,11 +62,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ewarren1DBCSCI481`.`Order`
+-- Table `ewarren1DBCSCI481`.`Sale`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ewarren1DBCSCI481`.`Order` ;
+DROP TABLE IF EXISTS `ewarren1DBCSCI481`.`Sale` ;
 
-CREATE TABLE IF NOT EXISTS `ewarren1DBCSCI481`.`Order` (
+CREATE TABLE IF NOT EXISTS `ewarren1DBCSCI481`.`Sale` (
   `order_ID` INT NOT NULL AUTO_INCREMENT,
   `order_Quantity` INT NOT NULL,
   `order_date` DATE NOT NULL,
@@ -132,17 +132,17 @@ CREATE TABLE IF NOT EXISTS `ewarren1DBCSCI481`.`Order Details` (
   `unit price` DOUBLE NOT NULL,
   `quantity_in_stock` INT NOT NULL,
   `discount_pecentage` DOUBLE NOT NULL,
-  `Order_order_ID` INT NOT NULL,
+  `Sale_order_ID` INT NOT NULL,
   INDEX `fk_Order Details_Product1_idx` (`Product_product_inventory_id` ASC),
-  INDEX `fk_Order Details_Order1_idx` (`Order_order_ID` ASC),
+  INDEX `fk_Order Details_Order1_idx` (`Sale_order_ID` ASC),
   CONSTRAINT `fk_Order Details_Product1`
     FOREIGN KEY (`Product_product_inventory_id`)
     REFERENCES `ewarren1DBCSCI481`.`Product` (`product_inventory_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order Details_Order1`
-    FOREIGN KEY (`Order_order_ID`)
-    REFERENCES `ewarren1DBCSCI481`.`Order` (`order_ID`)
+    FOREIGN KEY (`Sale_order_ID`)
+    REFERENCES `ewarren1DBCSCI481`.`Sale` (`order_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -156,10 +156,10 @@ DROP TABLE IF EXISTS `ewarren1DBCSCI481`.`Invoice_has_Order` ;
 CREATE TABLE IF NOT EXISTS `ewarren1DBCSCI481`.`Invoice_has_Order` (
   `Invoice_invoiceNumID` INT NOT NULL,
   `Invoice_Customer_customer_id` INT NOT NULL,
-  `Order_order_ID` INT NOT NULL,
-  `Order_order_date` DATE NOT NULL,
-  PRIMARY KEY (`Invoice_invoiceNumID`, `Invoice_Customer_customer_id`, `Order_order_ID`, `Order_order_date`),
-  INDEX `fk_Invoice_has_Order_Order1_idx` (`Order_order_ID` ASC, `Order_order_date` ASC),
+  `Sale_order_ID` INT NOT NULL,
+  `Sale_order_date` DATE NOT NULL,
+  PRIMARY KEY (`Invoice_invoiceNumID`, `Invoice_Customer_customer_id`, `Sale_order_ID`, `Sale_order_date`),
+  INDEX `fk_Invoice_has_Order_Order1_idx` (`Sale_order_ID` ASC, `Sale_order_date` ASC),
   INDEX `fk_Invoice_has_Order_Invoice1_idx` (`Invoice_invoiceNumID` ASC, `Invoice_Customer_customer_id` ASC),
   CONSTRAINT `fk_Invoice_has_Order_Invoice1`
     FOREIGN KEY (`Invoice_invoiceNumID` , `Invoice_Customer_customer_id`)
@@ -167,8 +167,8 @@ CREATE TABLE IF NOT EXISTS `ewarren1DBCSCI481`.`Invoice_has_Order` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Invoice_has_Order_Order1`
-    FOREIGN KEY (`Order_order_ID` , `Order_order_date`)
-    REFERENCES `ewarren1DBCSCI481`.`Order` (`order_ID` , `order_date`)
+    FOREIGN KEY (`Sale_order_ID` , `Order_order_date`)
+    REFERENCES `ewarren1DBCSCI481`.`Sale` (`order_ID` , `order_date`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
